@@ -4,7 +4,19 @@
     console.log(`${Phaser ? 'We are have the Phaser here' : 'Unfortunatelly we do not have Phaser here'}`);
     console.log(Phaser);
 
-    function preload() {} // To preload an assets
+    // To preload an assets
+    function preload() {
+        /* Scaling modes: 
+            NO_SCALE - nothing is scaling
+            EXACT_FIT - fill whole free space. Images can be skewed
+            SHOW_ALL - fill free space with respect to both horizontal and vertical ratio 
+            RESIZE - fill free space, objects can be placed dynamically. Advanced
+            USER_SCALE - allow perform custom dynamic scaling. Advanced*/
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.pageAlignVertically = true;
+        game.stage.backgroundColor = '#eee';
+    }
 
     function create() {} // Executed once when everything is loaded and ready
 
