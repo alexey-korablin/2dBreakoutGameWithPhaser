@@ -28,7 +28,11 @@
         ball = game.add.sprite(50, 50, 'ball');
     }
 
-    function update() {} // Executed on every frame.
+    // Executed on every frame.
+    function update() {
+        ball.x += 1;
+        ball.y += 1;
+    }
 
     const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
         preload: preload, create: create, update: update
