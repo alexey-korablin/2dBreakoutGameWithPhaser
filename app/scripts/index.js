@@ -30,6 +30,10 @@
         ball = game.add.sprite(50, 50, 'ball');
         // Plug the physics to the game object
         game.physics.enable(ball, Phaser.Physics.ARCADE);
+        // Enable bounds sensitivity
+        ball.body.collideWorldBounds = true;
+        // Enable bouncing when collide bounds
+        ball.body.bounce.set(1);
         // Set velocity to the ball
         ball.body.velocity.set(150, 150);
     }
