@@ -25,13 +25,17 @@
 
     // Executed once when everything is loaded and ready
     function create() {
+        // Initialize simple physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
         ball = game.add.sprite(50, 50, 'ball');
+        // Plug the physics to the game object
+        game.physics.enable(ball, Phaser.Physics.ARCADE);
+        // Set velocity to the ball
+        ball.body.velocity.set(150, 150);
     }
 
     // Executed on every frame.
     function update() {
-        ball.x += 1;
-        ball.y += 1;
     }
 
     const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
