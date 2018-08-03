@@ -4,6 +4,8 @@
     console.log(`${Phaser ? 'We are have the Phaser here' : 'Unfortunatelly we do not have Phaser here'}`);
     console.log(Phaser);
 
+    let ball;
+
     // To preload an assets
     function preload() {
         /* Scaling modes: 
@@ -16,9 +18,15 @@
         game.scale.pageAlignHorizontally = true;
         game.scale.pageAlignVertically = true;
         game.stage.backgroundColor = '#eee';
+
+        // Load the image of the ball
+        game.load.image('ball', 'assets/img/ball.png');
     }
 
-    function create() {} // Executed once when everything is loaded and ready
+    // Executed once when everything is loaded and ready
+    function create() {
+        ball = game.add.sprite(50, 50, 'ball');
+    }
 
     function update() {} // Executed on every frame.
 
