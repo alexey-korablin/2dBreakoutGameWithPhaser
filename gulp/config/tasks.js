@@ -1,3 +1,4 @@
+'use strict';
 module.exports = [
     './gulp/tasks/clean.js',
     './gulp/tasks/layout.js',
@@ -6,4 +7,4 @@ module.exports = [
     './gulp/tasks/style.js',
     './gulp/tasks/asset.js',
     './gulp/tasks/watch.js'
-]
+];

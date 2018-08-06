@@ -1,3 +1,4 @@
+'use strict';
 module.exports = () => {
     $.gulp.task('style', () => {
         return $.gulp.src('app/styles/**/main.less')
@@ -18,7 +19,7 @@ module.exports = () => {
         .pipe($.gulp.dest('build/styles'))
         .pipe($.bs.reload({
             stream: true
-        }))
+        }));
     });
 
     $.gulp.task('style:dev', () => {
@@ -38,6 +39,6 @@ module.exports = () => {
         .pipe($.gulp.dest('build/styles'))
         .pipe($.bs.reload({
             stream: true
-        }))
-    })
-}
+        }));
+    });
+};

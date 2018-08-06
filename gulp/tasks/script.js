@@ -1,3 +1,4 @@
+'use strict';
 module.exports = () => {
     $.gulp.task('script', () => {
         return $.gulp.src('app/scripts/*.js')

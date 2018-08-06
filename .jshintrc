@@ -1,0 +1,8 @@
+{
+    "esversion": 6,
+    "strict": "global",
+    "globals": {
+        "module": false,
+        "$": false
+    }
+}

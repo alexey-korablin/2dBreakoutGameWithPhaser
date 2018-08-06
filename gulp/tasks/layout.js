@@ -1,3 +1,4 @@
+'use strict';
 module.exports = () => {
     $.gulp.task('layout', () => {
         return $.gulp.src('app/*.html')
