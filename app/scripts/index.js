@@ -29,12 +29,21 @@
     function create() {
         // Initialize simple physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        // Disable collisions with the bottom edge of the screen
+        game.physics.arcade.checkCollision.down = false;
         // set the ball and the paddle on the vorld's canvas
         ball = game.add.sprite(game.world.width * 0.5, game.world.height - 25, 'ball');
         paddle = game.add.sprite(game.world.width * 0.5, game.world.height - 5, 'paddle');
         // Set the anchor right on the middle of the paddle and ball
         paddle.anchor.set(0.5, 1);
         ball.anchor.set(0.5);
+        // Enable checking the world bounds for ball
+        ball.checkWorldBounds = true;
+        // Enable executing action on onOutOfBound event
+        ball.events.onOutOfBounds.add(() => {
+            alert('Game Over!');
+            location.reload();
+        }, this);
         // Plug the physics to the game objects (ball adn paddle)
         game.physics.enable(ball, Phaser.Physics.ARCADE);
         game.physics.enable(paddle, Phaser.Physics.ARCADE);
