@@ -1,6 +1,7 @@
 {
     "esversion": 6,
     "strict": "global",
+    "validthis": true,
     "globals": {
         "module": false,
         "$": false

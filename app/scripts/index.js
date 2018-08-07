@@ -6,6 +6,39 @@
 
     let ball;
     let paddle;
+    let bricks; // To create a group of bricks
+    // To store all the data that we need
+    let brickConfig = {
+        width: 50,
+        height: 20,
+        count: {
+            row: 3,
+            col: 7
+        },
+        offset: {
+            top: 50,
+            left: 60
+        },
+        padding: 10
+    };
+
+    const createBricks = (c, r, config) => {
+        let newBrick; // New object to add to bricks group
+        let brickX = (c * (config.width + config.padding)) + config.offset.left;
+        let brickY = (r * (config.height + config.padding)) + config.offset.top;
+        newBrick = game.add.sprite(brickX, brickY, 'brick');
+        game.physics.enable(newBrick, Phaser.Physics.ARCADE);
+        newBrick.body.immovable = true;
+        newBrick.anchor.set(0.5);
+        bricks.add(newBrick);
+    };
+
+    const initBricks = (fn, cfg) => {
+        bricks = game.add.group();
+        new Array(cfg.count.col).fill(1).forEach((t, i) => new Array(cfg.count.row)
+            .fill(1).forEach((p, k) => fn(i, k, cfg)));
+        console.dir(bricks);
+    };
 
     // To preload an assets
     function preload() {
@@ -20,13 +53,16 @@
         game.scale.pageAlignVertically = true;
         game.stage.backgroundColor = '#eee';
 
-        // Load the image of the ball and paddles
+        // Load the image of the ball, paddle and bricks
         game.load.image('ball', 'assets/img/ball.png');
         game.load.image('paddle', 'assets/img/paddle.png');
+        game.load.image('brick', 'assets/img/brick.png');
     }
 
     // Executed once when everything is loaded and ready
     function create() {
+        //Initialize breacks
+        initBricks(createBricks, brickConfig);
         // Initialize simple physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         // Disable collisions with the bottom edge of the screen
