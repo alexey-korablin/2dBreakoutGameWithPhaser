@@ -22,6 +22,8 @@
         padding: 10
     };
 
+    const ballHitBrick = (ball, brick) => brick.kill();
+
     const createBricks = (c, r, config) => {
         let newBrick; // New object to add to bricks group
         let brickX = (c * (config.width + config.padding)) + config.offset.left;
@@ -95,7 +97,12 @@
 
     // Executed on every frame.
     function update() {
+        // Detect collisions between ball and paddle
         game.physics.arcade.collide(ball, paddle);
+        // Detect collisions between ball and bricks
+        game.physics.arcade.collide(ball, bricks, ballHitBrick);
+        // Move paddle by X coords. Input is mouse. In the start of 
+        // game paddle sets in the middle of bottom line of the world
         paddle.x = game.input.x || game.world.width * 0.5;
     }
 

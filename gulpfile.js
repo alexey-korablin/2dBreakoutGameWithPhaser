@@ -8,7 +8,7 @@ global.$ = {
     path: {
         tasks: require('./gulp/config/tasks.js')
     }
-}
+};
 
 $.path.tasks.forEach((task) => require(task)());
 

@@ -4,6 +4,8 @@
     "validthis": true,
     "globals": {
         "module": false,
-        "$": false
+        "$": false,
+        "global": false,
+        "require": false
     }
 }
