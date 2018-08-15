@@ -7,6 +7,8 @@
     let ball;
     let paddle;
     let bricks; // To create a group of bricks
+    let scoreText;
+    let score = 0;
     // To store all the data that we need
     let brickConfig = {
         width: 50,
@@ -22,7 +24,11 @@
         padding: 10
     };
 
-    const ballHitBrick = (ball, brick) => brick.kill();
+    const ballHitBrick = (ball, brick) => {
+        brick.kill();
+        score += 10;
+        scoreText.setText(`Points: ${score}`);
+    };
 
     const createBricks = (c, r, config) => {
         let newBrick; // New object to add to bricks group
@@ -93,6 +99,9 @@
         ball.body.velocity.set(150, -150);
         // Make the paddle immovable
         paddle.body.immovable = true;
+        // Add text to the game. Args of the text method:
+        // .text(<x coord, integer>, <y coord, integer>, <text content, string>, <styles, object>)
+        scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' });
     }
 
     // Executed on every frame.
