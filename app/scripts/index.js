@@ -9,6 +9,10 @@
     let bricks; // To create a group of bricks
     let scoreText;
     let score = 0;
+    let lives = 3;
+    let livesText;
+    let lifeLostText;
+    const textStyle = { font: '18px Arial', fill: '#0095DD' };
     // To store all the data that we need
     let brickConfig = {
         width: 50,
@@ -22,6 +26,23 @@
             left: 60
         },
         padding: 10
+    };
+
+    const ballLeaveScreen = () => {
+        lives--;
+        if (lives) {
+            livesText.setText(`Lives: ${lives}`);
+            lifeLostText.visible = true;
+            ball.reset(game.world.width * 0.5, game.world.height - 25);
+            paddle.reset(game.world.width * 0.5, game.world.height - 5);
+            game.input.onDown.addOnce(() => {
+                lifeLostText.visible = false;
+                ball.body.velocity.set(150, -150);
+            }, this);
+        } else {
+            alert('Game Over!');
+            location.reload();
+        }
     };
 
     const congrats = () => {
@@ -97,10 +118,7 @@
         // Enable checking the world bounds for ball
         ball.checkWorldBounds = true;
         // Enable executing action on onOutOfBound event
-        ball.events.onOutOfBounds.add(() => {
-            alert('Game Over!');
-            location.reload();
-        }, this);
+        ball.events.onOutOfBounds.add(ballLeaveScreen, this);
         // Plug the physics to the game objects (ball adn paddle)
         game.physics.enable(ball, Phaser.Physics.ARCADE);
         game.physics.enable(paddle, Phaser.Physics.ARCADE);
@@ -114,7 +132,22 @@
         paddle.body.immovable = true;
         // Add text to the game. Args of the text method:
         // .text(<x coord, integer>, <y coord, integer>, <text content, string>, <styles, object>)
-        scoreText = game.add.text(5, 5, 'Points: 0', { font: '18px Arial', fill: '#0095DD' });
+        scoreText = game.add.text(5, 5, 'Points: 0', textStyle);
+        // creates livesText the same way as above
+        livesText = game.add.text(game.world.width - 5, 5, `Lives: ${lives}`, textStyle);
+        // sets livesText on the top-right corner of the game
+        livesText.anchor.set(1, 0);
+        // creates lifeLostText the same way as the scoreText
+        lifeLostText = game.add.text(
+            game.world.width * 0.5,
+            game.world.height * 0.5,
+            `Life lost, click to continue`,
+            textStyle
+        );
+        // sets lifeLostText in the middle of the game
+        lifeLostText.anchor.set(0.5);
+        // makes lifeLostText invisible by default
+        lifeLostText.visible = false;
     }
 
     // Executed on every frame.
