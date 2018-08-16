@@ -24,10 +24,23 @@
         padding: 10
     };
 
+    const congrats = () => {
+        alert('You won the game, congratulations!');
+        location.reload();
+    };
+
     const ballHitBrick = (ball, brick) => {
+        let countAlive = 0;
         brick.kill();
         score += 10;
         scoreText.setText(`Points: ${score}`);
+
+        console.log(bricks);
+
+        bricks.children.forEach(b => countAlive += Number(b.alive));
+        if (countAlive === 0) {
+            setTimeout(congrats, 200);
+        }
     };
 
     const createBricks = (c, r, config) => {
