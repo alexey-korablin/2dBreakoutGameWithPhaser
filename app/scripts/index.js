@@ -50,18 +50,26 @@
         location.reload();
     };
 
+    const ballHitPaddle = (ball, paddle) => {
+        ball.animations.play('wobble');
+    };
+
     const ballHitBrick = (ball, brick) => {
         let countAlive = 0;
-        brick.kill();
+        // brick.kill();
+        const killTween = game.add.tween(brick.scale);
+        killTween.to({x: 0, y: 0}, 200, Phaser.Easing.Linear.None);
+        killTween.onComplete.addOnce(() => {
+            brick.kill();
+            bricks.children.forEach(b => countAlive += Number(b.alive));
+            if (countAlive === 0) {
+                setTimeout(congrats, 200);
+            }
+        }, this);
+        killTween.start();
         score += 10;
         scoreText.setText(`Points: ${score}`);
-
         console.log(bricks);
-
-        bricks.children.forEach(b => countAlive += Number(b.alive));
-        if (countAlive === 0) {
-            setTimeout(congrats, 200);
-        }
     };
 
     const createBricks = (c, r, config) => {
@@ -99,6 +107,7 @@
         game.load.image('ball', 'assets/img/ball.png');
         game.load.image('paddle', 'assets/img/paddle.png');
         game.load.image('brick', 'assets/img/brick.png');
+        game.load.spritesheet('wobble', 'assets/img/wobble.png', 20, 20);
     }
 
     // Executed once when everything is loaded and ready
@@ -111,6 +120,7 @@
         game.physics.arcade.checkCollision.down = false;
         // set the ball and the paddle on the vorld's canvas
         ball = game.add.sprite(game.world.width * 0.5, game.world.height - 25, 'ball');
+        ball.animations.add('wobble', [0, 1, 0, 2, 0, 1, 0, 2, 0], 24);
         paddle = game.add.sprite(game.world.width * 0.5, game.world.height - 5, 'paddle');
         // Set the anchor right on the middle of the paddle and ball
         paddle.anchor.set(0.5, 1);
@@ -153,7 +163,7 @@
     // Executed on every frame.
     function update() {
         // Detect collisions between ball and paddle
-        game.physics.arcade.collide(ball, paddle);
+        game.physics.arcade.collide(ball, paddle, ballHitPaddle);
         // Detect collisions between ball and bricks
         game.physics.arcade.collide(ball, bricks, ballHitBrick);
         // Move paddle by X coords. Input is mouse. In the start of 
