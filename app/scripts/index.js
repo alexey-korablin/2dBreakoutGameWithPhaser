@@ -12,6 +12,8 @@
     let lives = 3;
     let livesText;
     let lifeLostText;
+    let playing = false;
+    let startButton;
     const textStyle = { font: '18px Arial', fill: '#0095DD' };
     // To store all the data that we need
     let brickConfig = {
@@ -26,6 +28,12 @@
             left: 60
         },
         padding: 10
+    };
+
+    const startGame = () => {
+        startButton.destroy();
+        ball.body.velocity.set(150, -150);
+        playing = true;
     };
 
     const ballLeaveScreen = () => {
@@ -108,6 +116,7 @@
         game.load.image('paddle', 'assets/img/paddle.png');
         game.load.image('brick', 'assets/img/brick.png');
         game.load.spritesheet('wobble', 'assets/img/wobble.png', 20, 20);
+        game.load.spritesheet('button', 'assets/img/button.png', 120, 40);
     }
 
     // Executed once when everything is loaded and ready
@@ -122,9 +131,11 @@
         ball = game.add.sprite(game.world.width * 0.5, game.world.height - 25, 'ball');
         ball.animations.add('wobble', [0, 1, 0, 2, 0, 1, 0, 2, 0], 24);
         paddle = game.add.sprite(game.world.width * 0.5, game.world.height - 5, 'paddle');
+        startButton = game.add.button(game.world.width * 0.5, game.world.height * 0.5, 'button', startGame, this, 1, 0, 2);
         // Set the anchor right on the middle of the paddle and ball
         paddle.anchor.set(0.5, 1);
         ball.anchor.set(0.5);
+        startButton.anchor.set(0.5);
         // Enable checking the world bounds for ball
         ball.checkWorldBounds = true;
         // Enable executing action on onOutOfBound event
@@ -136,8 +147,6 @@
         ball.body.collideWorldBounds = true;
         // Enable bouncing when collide bounds
         ball.body.bounce.set(1);
-        // Set velocity to the ball
-        ball.body.velocity.set(150, -150);
         // Make the paddle immovable
         paddle.body.immovable = true;
         // Add text to the game. Args of the text method:
@@ -168,7 +177,9 @@
         game.physics.arcade.collide(ball, bricks, ballHitBrick);
         // Move paddle by X coords. Input is mouse. In the start of 
         // game paddle sets in the middle of bottom line of the world
-        paddle.x = game.input.x || game.world.width * 0.5;
+        if (playing) {
+            paddle.x = game.input.x || game.world.width * 0.5;
+        }
     }
 
     const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
